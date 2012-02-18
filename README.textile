@@ -1,0 +1,18 @@
+h1. find_references
+
+Ever wanted to check all the ocurrences of a given string in a directory tree without having to open every single file?
+
+find_references will do this and exports the results to a CSV file and, in the future, to other formats like XML.
+
+h2. installation
+
+* no installation needed
+
+h2. usage
+
+* perl find_refs.pl directory file_extension lookup_string
+
+h2. ToDo
+
+* export to other formats
+* implement GetOpt to parse the arguments given
