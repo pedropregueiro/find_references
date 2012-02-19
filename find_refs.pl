@@ -10,8 +10,9 @@ our $file_extension;
 our $lookup;
 our $init_dir = getcwd;
 our $csv_file = "results.csv";
+our @results;
 
-sub wanted_csv {
+sub wanted {
 	
 	my $file_name;
 	my $counter = 1;
@@ -23,20 +24,16 @@ sub wanted_csv {
 	else { 
 		return; 
 	}
-	
-	my @results;
-	
-	open WFILE, ">>", "$init_dir/$csv_file" or die $!;
+
 	open FILE, "<", $file_name or die $!;
 	while ($line = <FILE>) {
 		if($line =~ /.*?$lookup.*?/i) {
-			print WFILE $file_name . "," . $counter . "," . $line;;
+			push(@results, $file_name . "," . $counter . "," . $line);
 		}	
 		$counter++;
 	}
 	
 	close(FILE);
-	close (WFILE);
 }
 
 sub main {
@@ -51,7 +48,17 @@ sub main {
 	$lookup = $ARGV[2];
 
 	print "looking for the string '$lookup' in '*$file_extension' files in the directory '$dir_file'\n";
-	find(\&wanted_csv, $dir_file);
+	find(\&wanted, $dir_file);
+	
+
+	# todo: parse an extra argument to decide output: xml, csv, etc...
+	# currently only exporting to csv
+
+	open WFILE, ">", "$init_dir/$csv_file" or die $!;
+	foreach(@results) {
+		print WFILE $_;
+	}
+	close (WFILE);
 	print "created file with results: $init_dir/$csv_file\n";
 
 }
