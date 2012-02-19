@@ -14,5 +14,5 @@ h2. usage
 
 h2. ToDo
 
-* export to other formats
 * implement GetOpt to parse the arguments given
+* tidy the XML created
